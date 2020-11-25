@@ -1,132 +1,14 @@
 <template>
   <div>
       <h3>分类</h3>
-      <div class="scroll">
-        <ul>
-          <li>价格1</li>
-          <li>价格2</li>
-          <li>价格3</li>
-          <li>价格4</li>
-          <li>价格5</li>
-          <li>价格6</li>
-          <li>价格7</li>
-          <li>价格8</li>
-          <li>价格9</li>
-          <li>价格10</li>
-          <li>价格11</li>
-          <li>价格12</li>
-          <li>价格13</li>
-          <li>价格14</li>
-          <li>价格15</li>
-          <li>价格16</li>
-          <li>价格17</li>
-          <li>价格18</li>
-          <li>价格19</li>
-          <li>价格20</li>
-          <li>价格21</li>
-          <li>价格22</li>
-          <li>价格23</li>
-          <li>价格24</li>
-          <li>价格25</li>
-          <li>价格26</li>
-          <li>价格27</li>
-          <li>价格28</li>
-          <li>价格29</li>
-          <li>价格30</li>
-          <li>价格31</li>
-          <li>价格32</li>
-          <li>价格33</li>
-          <li>价格34</li>
-          <li>价格35</li>
-          <li>价格36</li>
-          <li>价格37</li>
-          <li>价格38</li>
-          <li>价格39</li>
-          <li>价格40</li>
-          <li>价格41</li>
-          <li>价格42</li>
-          <li>价格43</li>
-          <li>价格44</li>
-          <li>价格45</li>
-          <li>价格46</li>
-          <li>价格47</li>
-          <li>价格48</li>
-          <li>价格49</li>
-          <li>价格50</li>
-          <li>价格51</li>
-          <li>价格52</li>
-          <li>价格53</li>
-          <li>价格54</li>
-          <li>价格55</li>
-          <li>价格56</li>
-          <li>价格57</li>
-          <li>价格58</li>
-          <li>价格59</li>
-          <li>价格60</li>
-          <li>价格61</li>
-          <li>价格62</li>
-          <li>价格63</li>
-          <li>价格64</li>
-          <li>价格65</li>
-          <li>价格66</li>
-          <li>价格67</li>
-          <li>价格68</li>
-          <li>价格69</li>
-          <li>价格70</li>
-          <li>价格71</li>
-          <li>价格72</li>
-          <li>价格73</li>
-          <li>价格74</li>
-          <li>价格75</li>
-          <li>价格76</li>
-          <li>价格77</li>
-          <li>价格78</li>
-          <li>价格79</li>
-          <li>价格80</li>
-          <li>价格81</li>
-          <li>价格82</li>
-          <li>价格83</li>
-          <li>价格84</li>
-          <li>价格85</li>
-          <li>价格86</li>
-          <li>价格87</li>
-          <li>价格88</li>
-          <li>价格89</li>
-          <li>价格90</li>
-          <li>价格91</li>
-          <li>价格92</li>
-          <li>价格93</li>
-          <li>价格94</li>
-          <li>价格95</li>
-          <li>价格96</li>
-          <li>价格97</li>
-          <li>价格98</li>
-          <li>价格99</li>
-          <li>价格100</li>
-        </ul>
-      </div>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
 export default {
-    name:'Category',
-    data(){
-      return {
-        scroll:null
-      }
-    },
-    mounted(){
-      this.scroll=new BScroll(document.querySelector('.scroll'),{})
-    }
+    name:'Category'
 }
 </script>
 
 <style>
-.scroll{
-  height: 150px;
-  background-color: lightgray;
-  overflow: hidden;
-}
 </style>

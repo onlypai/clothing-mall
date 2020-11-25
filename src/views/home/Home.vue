@@ -3,17 +3,41 @@
     <nav-bar class="home-nav">
       <template v-slot:center>购物街</template>
     </nav-bar>
-    <!-- 轮播图封装 -->
-    <home-swiper :banners="banners" />
-    <home-recommends :recommends="recommends" />
-    <home-feature />
-    <tab-control :titles="['流行', '新款', '精选']" class="tab-control" @tabclick="tabclick"/>
-    <goods-list :goods="goods[currentType].list" />
+    <!-- 多一个tab-control组件解决吸顶效果ref="tabcontrol1" -->
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @tabclick="tabclick"
+      ref="tabcontrol1"
+      class="tab-control1"
+      v-show="isShow"
+    />
+    <scroll
+      class="content"
+      ref="backScroll"
+      :probe-type="3"
+      @scroll="showScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
+      <!-- 轮播图封装 -->
+      <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad" />
+      <home-recommends :recommends="recommends" />
+      <home-feature />
+      <tab-control
+        :titles="['流行', '新款', '精选']"
+        @tabclick="tabclick"
+        ref="tabcontrol2"
+      />
+      <goods-list :goods="goods[currentType].list" />
+    </scroll>
+    <!-- 组件上的原生事件，必须要在对应多个事件后面加上一个.native修饰符，才能进行监听 -->
+    <back-top @click.native="backclick" v-show="isBackTopShow" />
   </div>
 </template>
 
 <script>
 import { getHomeMultidata, getHomeGoods } from "network/home";
+import { debounce } from "common/utils";
 
 import HomeSwiper from "./childcoms/HomeSwiper";
 import HomeRecommends from "./childcoms/HomeRecommends";
@@ -22,6 +46,8 @@ import HomeFeature from "./childcoms/HomeFeature";
 import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabcontrol/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
+import Scroll from "components/common/scroll/Scroll";
+import BackTop from "components/content/backtop/BackTop.vue";
 
 export default {
   name: "Home",
@@ -32,6 +58,8 @@ export default {
     HomeFeature,
     TabControl,
     GoodsList,
+    Scroll,
+    BackTop,
   },
   data() {
     return {
@@ -43,6 +71,9 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
+      isBackTopShow: false,
+      tabOffsetTop: 0,
+      isShow: false,
     };
   },
   created() {
@@ -53,22 +84,53 @@ export default {
     this.getHomeMyGoods("new");
     this.getHomeMyGoods("sell");
   },
+  mounted() {
+    //监听GoodsListItem里面图片加载完成,这里要调用一下防抖函数,不频繁使用better-scroll里的refresh方法
+    const refresh = debounce(this.$refs.backScroll.refresh, 200);
+    this.$bus.$on("HomeGoodsListItem", () => {
+      refresh(); //防抖函数中返回的函数
+    });
+  },
   methods: {
     /**
      * 事件相关方法
      */
     tabclick(index) {
-      switch(index){
+      switch (index) {
         case 0:
-          this.currentType='pop'
-          break
+          this.currentType = "pop";
+          break;
         case 1:
-          this.currentType='new'
-          break
+          this.currentType = "new";
+          break;
         case 2:
-          this.currentType='sell'
-          break
+          this.currentType = "sell";
+          break;
       }
+      //吸顶效果中:两个tab-control组件中的index始终保持一致
+      this.$refs.tabcontrol1.currentIndex = index;
+      this.$refs.tabcontrol2.currentIndex = index;
+    },
+    //返回顶部
+    backclick() {
+      this.$refs.backScroll.scrollTo(0, 0);
+    },
+    showScroll(position) {
+      //1.返回顶部按钮的显示隐藏
+      //如果滚动juli大于1000,就显示
+      this.isBackTopShow = -position.y > 1000;
+      //2.吸顶功能:如果滚动距离大于this.$refs.tabcontrol2.$el.offsetTop,就显示tab-control1组件
+      this.isShow = -position.y >= this.tabOffsetTop;
+    },
+    //上拉加载更多
+    loadMore() {
+      this.getHomeMyGoods(this.currentType);
+      //调用BScroll对象的scroll属性的finishPullUp()方法,先结束此次上拉加载,然后就可以执行下一次上拉加载
+      this.$refs.backScroll.finishPullUp();
+    },
+    //swiperImgLoad监听轮播图片加载完成
+    swiperImgLoad() {
+      this.tabOffsetTop = this.$refs.tabcontrol2.$el.offsetTop;
     },
     /**
      * 网络请求相关方法
@@ -92,23 +154,26 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
+  height: 100vh;
 }
 #home .home-nav {
   background-color: var(--color-tint);
   color: #fff;
-  position: fixed;
-  top: 0;
+}
+.content {
+  position: absolute;
   left: 0;
   right: 0;
-  z-index: 10;
-}
-.tab-control {
-  position: sticky;
   top: 44px;
+  bottom: 49px;
+  overflow: hidden;
+}
+.tab-control1 {
+  position: relative;
+  z-index: 10;
   background-color: #fff;
-  z-index: 9;
 }
 </style>

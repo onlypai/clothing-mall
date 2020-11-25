@@ -1,32 +1,46 @@
 <template>
-        <swiper>
-        <swiper-item v-for="(item,index) in banners" :key="'swiper'+index">
-          <a :href="item.link">
-            <img :src="item.image" alt="">
-          </a>
-        </swiper-item>
-      </swiper>
+  <swiper>
+    <swiper-item v-for="(item, index) in banners" :key="'swiper' + index">
+      <a :href="item.link">
+        <img :src="item.image" alt="" @load="imageLoad" />
+      </a>
+    </swiper-item>
+  </swiper>
 </template>
 
 <script>
 //导入轮播图组件和注册
-import {Swiper,SwiperItem} from 'components/common/swiper'
+import { Swiper, SwiperItem } from "components/common/swiper";
 export default {
-    name:'homeSwiper',
-    props:{
-        banners:{
-            type:Array,
-            default() {
-                return []
-        }
-        }
+  name: "homeSwiper",
+  props: {
+    banners: {
+      type: Array,
+      default() {
+        return [];
+      },
     },
-    components:{
-        Swiper,SwiperItem
-    }
-}
+  },
+  data() {
+    return {
+      isLoad: false,
+    };
+  },
+  components: {
+    Swiper,
+    SwiperItem,
+  },
+  methods: {
+    imageLoad() {
+      //iaLoad状态作为判断,判断一张轮播图图片的加载即可,
+      if (!this.isLoad) {
+        this.$emit("swiperImgLoad");
+        this.isLoad = true;
+      }
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>
