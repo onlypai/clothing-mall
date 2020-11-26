@@ -63,6 +63,7 @@ export default {
   },
   data() {
     return {
+      //banners recommends轮播图数据，goods首页商品，currentType商品类型 ，isBackTopShow  返回顶部按钮的显示隐藏，tabOffsetTop  tabcontrol组件到吸顶位置的距离
       banners: [],
       recommends: [],
       goods: {
@@ -73,7 +74,9 @@ export default {
       currentType: "pop",
       isBackTopShow: false,
       tabOffsetTop: 0,
+      //isShow 复制的tabcontrol的显示隐藏，saveY 页面离开时的位置
       isShow: false,
+      saveY: 0,
     };
   },
   created() {
@@ -90,6 +93,15 @@ export default {
     this.$bus.$on("HomeGoodsListItem", () => {
       refresh(); //防抖函数中返回的函数
     });
+  },
+  //activated和deactivated为页面活跃与不活跃状态，记录和设置离开进入时的位置
+  activated() {
+    //进来时刷新一下,防止出现问题
+    this.$refs.backScroll.refresh();
+    this.$refs.backScroll.scrollTo(0, this.saveY, 0);
+  },
+  deactivated() {
+    this.saveY = this.$refs.backScroll.getScrollY();
   },
   methods: {
     /**

@@ -61,6 +61,10 @@ export default {
     refresh() {
       this.scroll && this.scroll.refresh();
     },
+    //封装获取scroll.y属性为方法(页面位置)
+    getScrollY(){
+      return this.scroll ? this.scroll.y : 0
+    }
   },
 };
 </script>
