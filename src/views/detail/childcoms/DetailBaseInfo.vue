@@ -19,7 +19,8 @@
         v-for="index in goods.services.length - 1"
         :key="index"
       >
-        <img :src="goods.services[index - 1].icon" />
+      <!-- 前面的图标有就显示，没有就不显示 -->
+        <img :src="goods.services[index - 1].icon" v-if="goods.services[index - 1].icon"/>
         <span>{{ goods.services[index - 1].name }}</span>
       </span>
     </div>

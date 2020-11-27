@@ -24,6 +24,8 @@ export default {
       this.$bus.$emit("HomeGoodsListItem");
     },
     itemClick() {
+      //详情页商品没有iid，无法点击
+      if (this.goodsItem.iid!==undefined)
       this.$router.push("/detail/" + this.goodsItem.iid);
     },
   },

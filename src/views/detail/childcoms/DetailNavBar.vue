@@ -33,6 +33,8 @@ export default {
   methods:{
       itemclick(index){
           this.currentIndex=index
+          //点击导航移动到准确位置
+          this.$emit('titleclick',index)
       },
       backclick(){
           this.$router.back()

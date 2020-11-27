@@ -38,6 +38,7 @@
 <script>
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils";
+import {itemListenerMixin} from 'common/mixin'
 
 import HomeSwiper from "./childcoms/HomeSwiper";
 import HomeRecommends from "./childcoms/HomeRecommends";
@@ -87,13 +88,9 @@ export default {
     this.getHomeMyGoods("new");
     this.getHomeMyGoods("sell");
   },
-  mounted() {
-    //监听GoodsListItem里面图片加载完成,这里要调用一下防抖函数,不频繁使用better-scroll里的refresh方法
-    const refresh = debounce(this.$refs.backScroll.refresh, 200);
-    this.$bus.$on("HomeGoodsListItem", () => {
-      refresh(); //防抖函数中返回的函数
-    });
-  },
+  //mounted函数使用混入
+  mixins:[itemListenerMixin],
+
   //activated和deactivated为页面活跃与不活跃状态，记录和设置离开进入时的位置
   activated() {
     //进来时刷新一下,防止出现问题
@@ -101,7 +98,12 @@ export default {
     this.$refs.backScroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
+    //记住离开时页面位置
     this.saveY = this.$refs.backScroll.getScrollY();
+    //home页面离开时取消对全局事件HomeGoodsListItem的监听
+    this.$bus.$off('HomeGoodsListItem', () => {
+      refresh();
+    })
   },
   methods: {
     /**
@@ -132,7 +134,7 @@ export default {
       //如果滚动juli大于1000,就显示
       this.isBackTopShow = -position.y > 1000;
       //2.吸顶功能:如果滚动距离大于this.$refs.tabcontrol2.$el.offsetTop,就显示tab-control1组件
-      this.isShow = -position.y >= this.tabOffsetTop;
+      this.isShow = -position.y > this.tabOffsetTop;
     },
     //上拉加载更多
     loadMore() {
