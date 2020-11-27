@@ -5,7 +5,8 @@
     <div class="info-price">
       <span class="n-price">{{ goods.newPrice }}</span>
       <span class="o-price"><s>{{ goods.oldPrice }}</s></span>
-      <span class="discount">{{ goods.discount }}</span>
+      <!-- 没有就不显示 -->
+      <span class="discount" v-if="goods.discount">{{ goods.discount }}</span>
     </div>
     <div class="info-other">
       <span>{{ goods.columns[0] }}</span>
@@ -49,31 +50,33 @@ export default {
     font-size: 18px;
     color: black;
 }
-.info-price{
-    margin: 10px 0 10px 0;
-    position: relative;
-}
-.info-price .n-price{
+  .info-price {
+    margin-top: 10px;
+  }
+
+  .info-price .n-price {
     font-size: 24px;
-    margin-right: 9px;
     color: var(--color-high-text);
-}
-.info-price .o-price{
-    position: absolute;
-    left: 80px;
-    bottom: 2px;
-    font-size: 14px;
-}
-.info-price .discount{
-    position: absolute;
-    left: 128px;
-    bottom: 10px;
+  }
+
+  .info-price .o-price {
+    font-size: 13px;
+    margin-left: 5px;
+    text-decoration: line-through;
+  }
+
+  .info-price .discount {
+    font-size: 12px;
     padding: 2px 5px;
-    border-radius: 100px;
-    font-size: 14px;
     color: #fff;
     background-color: var(--color-high-text);
-}
+    border-radius: 8px;
+    margin-left: 5px;
+
+    /*让元素上浮一些: 使用相对定位即可*/
+    position: relative;
+    top: -8px;
+  }
 .info-other{
     margin-top: 15px;
     line-height: 30px;

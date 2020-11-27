@@ -6,7 +6,9 @@
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
       <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"/>
-      <detail-param-info :paramInfo="paramInfo"/>
+      <detail-param-info :param-info="paramInfo"/>
+      <detail-comment-info :comment-info="commentInfo"/>
+      <detail-recomment-info :recommend-info="recommendInfo"/>
     </scroll>
   </div>
 </template>
@@ -19,8 +21,10 @@ import DetailShopInfo from "views/detail/childcoms/DetailShopInfo";
 import Scroll from "components/common/scroll/Scroll";
 import DetailGoodsInfo from './childcoms/DetailGoodsInfo.vue';
 import DetailParamInfo from './childcoms/DetailParamInfo.vue';
+import DetailCommentInfo from './childcoms/DetailCommentInfo.vue';
+import DetailRecommentInfo from './childcoms/DetailRecommentInfo.vue';
 
-import { getDetail, Goods, Shop,GoodsParam } from "network/detail";
+import { getDetail, Goods, Shop,GoodsParam,getRecommend } from "network/detail";
 
 export default {
   name: "Detail",
@@ -32,6 +36,8 @@ export default {
     Scroll,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
+    DetailRecommentInfo,
   },
   data() {
     return {
@@ -40,13 +46,15 @@ export default {
       goods: {},
       shop: {},
       detailInfo:{},
-      paramInfo:{}
+      paramInfo:{},
+      commentInfo:{},
+      //推荐商品信息,数组
+      recommendInfo:[]
     };
   },
   created() {
-    //保存传入的id
     this.iid = this.$route.params.id;
-    //根据id请求详情数据
+    //根据id请求商品详情数据
     getDetail(this.iid).then((res) => {
       console.log(res);
       const data = res.result;
@@ -60,11 +68,19 @@ export default {
       );
       //请求店铺相关信息
       this.shop = new Shop(data.shopInfo);
-      //请求商品的很多张展示图片
+      //请求商品的很多张参数图片
       this.detailInfo=data.detailInfo
-      //请求商品参数
+      //请求商品参数信息
       this.paramInfo=new GoodsParam(data.itemParams.info,data.itemParams.rule)
+      //请求评论信息
+      if (data.rate.list)(
+        this.commentInfo=data.rate.list[0]
+      )
     });
+    //请求推荐商品信息
+    getRecommend().then(result=>{
+      this.recommendInfo=result.data.list
+    })
   },
   methods:{
       imageLoad(){

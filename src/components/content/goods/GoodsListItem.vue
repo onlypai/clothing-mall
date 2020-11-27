@@ -1,6 +1,7 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="goodsItem.show.img" @load="imageLoad" />
+    <!-- 计算属性获取图片,兼容推荐图片 -->
+    <img :src="getImg" @load="imageLoad" />
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
       <span class="price">{{ goodsItem.price }}</span>
@@ -22,9 +23,16 @@ export default {
     imageLoad() {
       this.$bus.$emit("HomeGoodsListItem");
     },
-    itemClick(){
-        this.$router.push('/detail/'+this.goodsItem.iid)
-    }
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.iid);
+    },
+  },
+  computed: {
+    getImg() {
+      return (
+        this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
+      );
+    },
   },
 };
 </script>

@@ -28,7 +28,7 @@ export default {
     },
   methods:{
       handleclick(){
-          this.$router.push('/location').catch(err => { console.log(err)})//网上找的看不懂，加这一句连续点两次就不会报错
+          this.$router.push('/location').catch(err => { console.log(err)})//加这一句连续点两次就不会报错
           this.$router.replace(this.path)
       }
   }

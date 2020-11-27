@@ -1,4 +1,5 @@
 import { request2 } from './request'
+//根据商品id请求的商品信息
 export function getDetail(iid) {
     return request2({
         url: '/detail',
@@ -7,6 +8,13 @@ export function getDetail(iid) {
         }
     })
 }
+//请求推荐商品信息
+export function getRecommend() {
+    return request2({
+        url: '/recommend'
+    })
+}
+
 
 //商品数据整合，封装成类，一次性传入子组件
 //ES6里面定义类
