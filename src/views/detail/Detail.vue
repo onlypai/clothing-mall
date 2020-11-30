@@ -19,6 +19,9 @@
       <detail-comment-info :comment-info="commentInfo" ref="comment" />
       <detail-recomment-info :recommend-info="recommendInfo" ref="recomment" />
     </scroll>
+    <detail-bottom-bar @addCart="addToCart"/>
+    <!-- 返回顶部组件 -->
+    <back-top @click.native="backclick" v-show="isBackTopShow" />
   </div>
 </template>
 
@@ -32,6 +35,8 @@ import DetailGoodsInfo from "./childcoms/DetailGoodsInfo.vue";
 import DetailParamInfo from "./childcoms/DetailParamInfo.vue";
 import DetailCommentInfo from "./childcoms/DetailCommentInfo.vue";
 import DetailRecommentInfo from "./childcoms/DetailRecommentInfo.vue";
+import DetailBottomBar from './childcoms/DetailBottomBar.vue';
+
 
 import {
   getDetail,
@@ -41,7 +46,7 @@ import {
   getRecommend,
 } from "network/detail";
 import { debounce } from "common/utils";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin,backTop } from "common/mixin";
 
 export default {
   name: "Detail",
@@ -55,6 +60,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     DetailRecommentInfo,
+    DetailBottomBar,
   },
   data() {
     return {
@@ -73,11 +79,14 @@ export default {
       currentIndex: 0,
     };
   },
+  //mounted函数使用混入
+  mixins: [itemListenerMixin , backTop],
+
   created() {
     this.iid = this.$route.params.id;
     //根据id请求商品详情数据
     getDetail(this.iid).then((res) => {
-      console.log(res);
+      // console.log(res);
       const data = res.result;
       //请求轮播图片
       this.topImages = data.itemInfo.topImages;
@@ -104,8 +113,6 @@ export default {
       this.recommendInfo = result.data.list;
     });
   },
-  //mounted函数使用混入
-  mixins: [itemListenerMixin],
 
   destroyed() {
     //detail页面离开时取消对全局事件HomeGoodsListItem的监听
@@ -153,7 +160,22 @@ export default {
           this.$refs.detailnavbar.currentIndex=this.currentIndex
         }
       }
+      //3.返回顶部按钮的显示隐藏
+      this.backTopListener(position)
     },
+    addToCart(){
+      //保存商品信息
+      const product={}
+      product.iid=this.iid
+      product.title=this.goods.title
+      product.desc=this.goods.desc
+      //购物车里显示的价格
+      product.realprice=this.goods.nowPrice
+      product.img=this.topImages[0]
+
+      //将商品添加至购物车，用vuex
+      this.$store.dispatch('addpro',product)
+    }
   },
 };
 </script>
@@ -164,6 +186,7 @@ export default {
   z-index: 110;
   background-color: #fff;
   height: 100vh;
+  overflow: hidden;
 }
 .detail-navbar {
   position: relative;
@@ -171,6 +194,6 @@ export default {
   background-color: #fff;
 }
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px); 
 }
 </style>

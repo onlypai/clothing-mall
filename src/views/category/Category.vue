@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>分类</h3>
+    分类
   </div>
 </template>
 

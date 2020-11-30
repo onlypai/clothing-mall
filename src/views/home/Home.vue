@@ -38,7 +38,7 @@
 <script>
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils";
-import {itemListenerMixin} from 'common/mixin'
+import {itemListenerMixin,backTop} from 'common/mixin'
 
 import HomeSwiper from "./childcoms/HomeSwiper";
 import HomeRecommends from "./childcoms/HomeRecommends";
@@ -48,7 +48,7 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabcontrol/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backtop/BackTop.vue";
+// import BackTop from "components/content/backtop/BackTop.vue";//-----------------------------------------------------------------
 
 export default {
   name: "Home",
@@ -60,7 +60,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
+    // BackTop,//-----------------------------------------------------------------
+
   },
   data() {
     return {
@@ -73,13 +74,16 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isBackTopShow: false,
+      // isBackTopShow: false,//-----------------------------------------------------------------
       tabOffsetTop: 0,
       //isShow 复制的tabcontrol的显示隐藏，saveY 页面离开时的位置
       isShow: false,
       saveY: 0,
     };
   },
+  //使用混入
+  mixins:[itemListenerMixin, backTop],
+
   created() {
     //轮播图、轮播图下方数据的请求
     this.getHomeMultiMydata();
@@ -88,8 +92,7 @@ export default {
     this.getHomeMyGoods("new");
     this.getHomeMyGoods("sell");
   },
-  //mounted函数使用混入
-  mixins:[itemListenerMixin],
+
 
   //activated和deactivated为页面活跃与不活跃状态，记录和设置离开进入时的位置
   activated() {
@@ -126,13 +129,12 @@ export default {
       this.$refs.tabcontrol2.currentIndex = index;
     },
     //返回顶部
-    backclick() {
-      this.$refs.backScroll.scrollTo(0, 0);
-    },
+    // backclick() {//-----------------------------------------------------------------
+    //   this.$refs.backScroll.scrollTo(0, 0);
+    // },
     showScroll(position) {
       //1.返回顶部按钮的显示隐藏
-      //如果滚动juli大于1000,就显示
-      this.isBackTopShow = -position.y > 1000;
+      this.backTopListener(position)//-----------------------------------------------------------------
       //2.吸顶功能:如果滚动距离大于this.$refs.tabcontrol2.$el.offsetTop,就显示tab-control1组件
       this.isShow = -position.y > this.tabOffsetTop;
     },

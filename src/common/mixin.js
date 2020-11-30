@@ -8,3 +8,27 @@ export const itemListenerMixin = {
         })
     },
 }
+
+
+import BackTop from "components/content/backtop/BackTop.vue";
+//返回顶部相关代码使用混入
+export const backTop = {
+    components: {
+        BackTop
+    },
+    data() {
+        return {
+            isBackTopShow: false
+
+        }
+    },
+    methods: {
+        backclick() {
+            this.$refs.backScroll.scrollTo(0, 0);
+        },
+        backTopListener(position) {
+            //如果滚动juli大于1000,就显示
+            this.isBackTopShow = -position.y > 1000;
+        }
+    }
+}
