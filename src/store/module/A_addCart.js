@@ -22,14 +22,18 @@ export default {
     },
     actions: {
         addpro(context, payload) {
-            //判断新添加的商品的id有没有和添加过的重复的，一开始里面有这个商品，就把数量加1
-            let oldProduct = context.state.cartList.find(item => item.iid === payload.iid)
-            if (oldProduct) {
-                context.commit('addCount', oldProduct)
-            } else {
-                context.commit('addToCart', payload)
-            }
-            //mutations唯一的目的就是修改state中的状态，mutations中的每一个方法尽可能完成的事情单一一点，所以他把拿到actions里面，并且判断里面的两个功能分别放在mutations里面的两个函数
+            return new Promise(resolve => {
+                //判断新添加的商品的id有没有和添加过的重复的，一开始里面有这个商品，就把数量加1
+                let oldProduct = context.state.cartList.find(item => item.iid === payload.iid)
+                if (oldProduct) {
+                    context.commit('addCount', oldProduct)
+                    resolve('此商品数量加1')
+                } else {
+                    context.commit('addToCart', payload)
+                    resolve('已添加此商品')
+                }
+                //mutations唯一的目的就是修改state中的状态，mutations中的每一个方法尽可能完成的事情单一一点，所以他把拿到actions里面，并且判断里面的两个功能分别放在mutations里面的两个函数
+            })
         }
     }
 }

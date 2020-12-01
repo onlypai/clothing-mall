@@ -14,7 +14,7 @@ export default {
     path:String,
     activeColor:{
       type:String,
-      default:'rgb(226, 43, 180)'
+      default:' #ff8198'
     }
   },
     computed:{

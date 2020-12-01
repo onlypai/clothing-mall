@@ -5,9 +5,7 @@
       <template v-slot:center>购物车{{ cartLength }}</template>
     </nav-bar>
     <!-- 购物车商品 -->
-    <scroll class="scroll">
       <cart-list/>
-    </scroll>
     <!-- 底部导航 -->
     <cart-bottom-bar class="bottom"/>
   </div>
@@ -19,9 +17,8 @@ import { mapGetters } from "vuex";
 import NavBar from "components/common/navbar/NavBar.vue";
 import CartList from './childComs/CartList.vue';
 import CartBottomBar from './childComs/CartBottomBar.vue';
-import Scroll from '../../components/common/scroll/Scroll.vue';
 export default {
-  components: { NavBar, CartList, CartBottomBar, Scroll },
+  components: { NavBar, CartList, CartBottomBar },
   name: "Cart",
   computed: {
     ...mapGetters(['cartLength']),
@@ -39,14 +36,6 @@ export default {
     font-weight: 700;
     color: #fff;
   }
-.scroll{
-  position: absolute;
-  top: 44px;
-  bottom: 93px;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-}
 .bottom{
   position: fixed;
   bottom: 49px;

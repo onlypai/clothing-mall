@@ -48,7 +48,6 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabcontrol/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-// import BackTop from "components/content/backtop/BackTop.vue";//-----------------------------------------------------------------
 
 export default {
   name: "Home",
@@ -60,7 +59,6 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    // BackTop,//-----------------------------------------------------------------
 
   },
   data() {
@@ -74,7 +72,6 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      // isBackTopShow: false,//-----------------------------------------------------------------
       tabOffsetTop: 0,
       //isShow 复制的tabcontrol的显示隐藏，saveY 页面离开时的位置
       isShow: false,
@@ -128,13 +125,9 @@ export default {
       this.$refs.tabcontrol1.currentIndex = index;
       this.$refs.tabcontrol2.currentIndex = index;
     },
-    //返回顶部
-    // backclick() {//-----------------------------------------------------------------
-    //   this.$refs.backScroll.scrollTo(0, 0);
-    // },
     showScroll(position) {
       //1.返回顶部按钮的显示隐藏
-      this.backTopListener(position)//-----------------------------------------------------------------
+      this.backTopListener(position)
       //2.吸顶功能:如果滚动距离大于this.$refs.tabcontrol2.$el.offsetTop,就显示tab-control1组件
       this.isShow = -position.y > this.tabOffsetTop;
     },

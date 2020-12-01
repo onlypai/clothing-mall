@@ -174,7 +174,9 @@ export default {
       product.img=this.topImages[0]
 
       //将商品添加至购物车，用vuex
-      this.$store.dispatch('addpro',product)
+      this.$store.dispatch('addpro',product).then(res=>{
+        this.$toast.show(res)
+      })
     }
   },
 };

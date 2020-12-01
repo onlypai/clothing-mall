@@ -1,10 +1,10 @@
 <template>
   <div class="bottom">
     <div class="check-button">
-      <div class="button"><check-button /></div>
+      <div class="button"><check-button :isActived='isSelectAll' @click.native="select"/></div>
       <div class="text">全选</div>
     </div>
-    <div class="price">合计：{{ totalPrice }}</div>
+    <div class="price">合计：￥{{ totalPrice }}</div>
     <div class="count">去计算({{ totalCount }})</div>
   </div>
 </template>
@@ -24,8 +24,22 @@ export default {
     totalCount(){
         return this.$store.state.A_addCart.cartList
         .filter(item=> item.isChecked).length
+    },
+    isSelectAll(){
+      if(this.$store.state.A_addCart.cartList.length===0) return false//购物车为空，默认不选中
+      return !this.$store.state.A_addCart.cartList.find(item=>!item.isChecked)//只要有一个没有选中，全选按钮就不亮
     }
   },
+  methods:{
+    //全选按钮点击事件
+    select(){
+      if(this.isSelectAll){//如果全部选中，就把isChecked属性设置为假
+        this.$store.state.A_addCart.cartList.forEach(item =>item.isChecked=false);
+      } else{
+        this.$store.state.A_addCart.cartList.forEach(item =>item.isChecked=true);
+      }
+    }
+  }
 };
 </script>
 

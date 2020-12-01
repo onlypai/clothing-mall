@@ -10,9 +10,7 @@ export default {
     props:{
         isActived:{
             trpe:Boolean,
-            default(){
-                return true
-            }
+            default:false
         }
     }
 }
