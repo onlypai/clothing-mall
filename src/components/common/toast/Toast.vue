@@ -34,6 +34,7 @@ export default {
     transform: translate(-50%,-50%);
 
     background-color: rgba(0, 0, 0, .65);
+    font-size: 16px;
     color: seashell;
     padding: 8px 10px;
     border-radius: 5px;

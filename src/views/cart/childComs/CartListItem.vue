@@ -57,6 +57,7 @@ export default {
   }
 
   .item-title, .item-desc {
+    font-size: 15px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

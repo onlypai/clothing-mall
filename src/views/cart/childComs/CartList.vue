@@ -15,10 +15,7 @@ export default {
 }
 </script>
 
-<style>
-.cart-list{
-  height: 100%;
-}
+<style scoped>
 .scroll{
   position: absolute;
   top: 44px;

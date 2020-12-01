@@ -49,6 +49,7 @@ export default {
   display: flex;
   justify-content: space-between;
   background-color: #eee;
+  font-size: 16px;
 }
 .check-button {
   width: 74px;
