@@ -15,7 +15,7 @@ Vue.prototype.$bus = new Vue() //在原型上创建事件总线
 Vue.use(toast) //安装封装的toast插件
 FastClick.attach(document.body) //解决移动端300ms延迟
 Vue.use(LazyLoad, {
-    loading: require('./assets/img/common/placeholder.jpg')
+    loading: require('./assets/img/common/placeholder.gif')
 })
 
 new Vue({
