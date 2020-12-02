@@ -12,8 +12,8 @@
     </scroll>
     <scroll class="scroll2">
       <category-table class="table" :category-table="categoryTable" />
-      <tab-control :titles="titleList" @tabclick="tabclick"/>
-      <goods-list :goods="categoryGoods"/>
+      <tab-control :titles="titleList" @tabclick="tabclick" />
+      <goods-list :goods="categoryGoods" />
     </scroll>
   </div>
 </template>
@@ -30,7 +30,7 @@ import CategoryList from "./childComs/CategoryList.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
 import CategoryTable from "./childComs/CategoryTable";
 import TabControl from "components/content/tabcontrol/TabControl.vue";
-import GoodsList from 'components/content/goods/GoodsList.vue';
+import GoodsList from "components/content/goods/GoodsList.vue";
 
 export default {
   components: {
@@ -52,52 +52,59 @@ export default {
       titleList: ["流行", "新款", "精选"],
       currentIndex: 0,
       //商品数据
-      categoryGoods:[]
+      categoryGoods: [],
     };
   },
   methods: {
     itemclick(index) {
-      this.currentIndex=index
+      // 阻止反复请求
+      if (this.currentIndex === index) return;
+      this.currentIndex = index;
       this.getCategoryTable(this.categoryList[this.currentIndex].maitKey);
-      this.getCategoryGoods(this.categoryList[this.currentIndex].miniWallkey, "pop")
+      this.getCategoryGoods(
+        this.categoryList[this.currentIndex].miniWallkey,
+        "pop"
+      );
     },
-    tabclick(index){
+    tabclick(index) {
       const typeList = ["pop", "new", "sell"];
-      this.getCategoryGoods(this.categoryList[this.currentIndex].miniWallkey, typeList[index])
+      this.getCategoryGoods(
+        this.categoryList[this.currentIndex].miniWallkey,
+        typeList[index]
+      );
     },
 
-
-/**
- * 请求数据相关方法
- */
-    getCategoryList(){
+    /**
+     * 请求数据相关方法
+     */
+    getCategoryList() {
       //请求分类页面相关数据
       getCategoryList().then((res) => {
-      console.log(res);
-      this.categoryList = res.data.category.list;
-      //nextTick（）：dom生成之后在获取dom对象
-      this.$nextTick(() => {
-        this.getCategoryTable(this.categoryList[0].maitKey);
-        this.getCategoryGoods(this.categoryList[0].miniWallkey, "pop");
+        // console.log(res);
+        this.categoryList = res.data.category.list;
+        //nextTick（）：dom生成之后再获取dom对象
+        this.$nextTick(() => {
+          this.getCategoryTable(this.categoryList[0].maitKey);
+          this.getCategoryGoods(this.categoryList[0].miniWallkey, "pop");
+        });
       });
-    })
     },
 
     getCategoryGoods(miniWallkey, type) {
       //请求商品
       getCategoryGoods(miniWallkey, type).then((res) => {
-        console.log(res);
-        this.categoryGoods=res
+        // console.log(res);
+        this.categoryGoods = res;
       });
     },
 
-    getCategoryTable(maitKey){
+    getCategoryTable(maitKey) {
       //请求右边分类商品中的列表商品
       getCategoryTable(maitKey).then((res) => {
-          console.log(res);
-          this.categoryTable = res.data.list;
-        })
-    }
+        // console.log(res);
+        this.categoryTable = res.data.list;
+      });
+    },
   },
   created() {
     //请求分类页面相关数据
