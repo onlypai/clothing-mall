@@ -26,7 +26,7 @@ export default {
                 //判断新添加的商品的id有没有和添加过的重复的，一开始里面有这个商品，就把数量加1
                 let oldProduct = context.state.cartList.find(item => item.iid === payload.iid)
                 if (oldProduct) {
-                    context.commit('addCount', oldProduct)
+                    context.commit('addCount', oldProduct) //执行这一步，请求就成功
                     resolve('此商品数量加1')
                 } else {
                     context.commit('addToCart', payload)

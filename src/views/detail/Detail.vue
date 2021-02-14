@@ -86,7 +86,7 @@ export default {
     this.iid = this.$route.params.id;
     //根据id请求商品详情数据
     getDetail(this.iid).then((res) => {
-      // console.log(res);
+      console.log(res);
       const data = res.result;
       //请求轮播图片
       this.topImages = data.itemInfo.topImages;
@@ -128,6 +128,7 @@ export default {
       //图片加载完成之后，将组件位置加到数组里，不用防抖函数也可以
       this.themeTopY.push(0);
       this.themeTopY.push(this.$refs.param.$el.offsetTop);
+      
       this.themeTopY.push(this.$refs.comment.$el.offsetTop);
       this.themeTopY.push(this.$refs.recomment.$el.offsetTop);
       this.themeTopY.push(Number.MAX_VALUE);//最大值
@@ -192,8 +193,8 @@ export default {
 }
 .detail-navbar {
   position: relative;
-  z-index: 50;
-  background-color: #fff;
+  z-index: 100;
+  background-color: rgb(255, 255, 255);
 }
 .content {
   height: calc(100% - 44px - 49px); 

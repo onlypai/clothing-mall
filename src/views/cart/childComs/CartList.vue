@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Scroll from '../../../components/common/scroll/Scroll.vue'
+import Scroll from 'components/common/scroll/Scroll.vue'
 import CartListItem from './CartListItem.vue'
 export default {
   components: { CartListItem, Scroll },
